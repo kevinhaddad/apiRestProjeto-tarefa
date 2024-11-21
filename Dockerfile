@@ -31,7 +31,7 @@ WORKDIR /app
 COPY --from=build /app/target/projeto-tarefa-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose port 8080
-EXPOSE 5432
+EXPOSE 8080
 
 # Comando para rodar a aplicação
 #ENTRYPOINT ["java", "-jar", "/app/projeto-tarefa.jar"]
