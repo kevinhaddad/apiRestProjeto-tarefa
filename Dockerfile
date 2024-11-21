@@ -1,7 +1,7 @@
 # Etapa 1: Construir a aplicação usando Maven 4.0.0 (caso tenha uma imagem específica)
 FROM maven:3.9.4-eclipse-temurin-21 AS build
 LABEL authors="Kevin-Borba"
-LABEL description = "a"
+LABEL description = "This is the Dockerfile for the projeto-tarefa service"
 # Definir o diretório de trabalho
 WORKDIR /app
 
@@ -26,10 +26,15 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Copiar o arquivo JAR da etapa de construção
-COPY --from=build /app/target/projeto-tarefa-0.0.1-SNAPSHOT.jar /app/projeto-tarefa.jar
+#COPY --from=build /app/target/projeto-tarefa-0.0.1-SNAPSHOT.jar /app/projeto-tarefa.jar
+# Copy the built jar from the build stage R
+COPY --from=build /app/target/projeto-tarefa-0.0.1-SNAPSHOT.jar app.jar
 
-# Expor a porta que o Spring Boot vai rodar (por padrão, 8080)
-EXPOSE 8080
+# Expose port 8080
+EXPOSE 8090
 
 # Comando para rodar a aplicação
-ENTRYPOINT ["java", "-jar", "/app/projeto-tarefa.jar"]
+#ENTRYPOINT ["java", "-jar", "/app/projeto-tarefa.jar"]
+
+# Define the entrypoint
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
