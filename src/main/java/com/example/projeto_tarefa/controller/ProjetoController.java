@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/projetos")
+@RequestMapping("/api")
 public class ProjetoController {
 
     private final ProjetoService projetoService;
@@ -27,25 +27,25 @@ public class ProjetoController {
         this.tarefaService = tarefaService;
     }
 
-    @Tag(name = "GET")
-    @Operation(summary = "Get all projects", description = "Retrieve all projects")
-    @GetMapping(value = "/all", produces = {"application/json", "application/xml"})
+    //@Tag(name = "GET")
+    //@Operation(summary = "Get all projects", description = "Retrieve all projects")
+    @GetMapping(value = "/", produces = {"application/json"})
     public List<Projeto> getAllProjetos() {
         return projetoService.getAllProjetos();
     }
 
-    @Tag(name = "GET")
-    @Operation(summary = "Get project by ID", description = "Retrieve a project by its ID")
-    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
+    //@Tag(name = "GET")
+    //@Operation(summary = "Get project by ID", description = "Retrieve a project by its ID")
+    @GetMapping(value = "/{id}", produces = {"application/json"})
     public ResponseEntity<Projeto> getProjetoById(@PathVariable Long id) {
         Optional<Projeto> projeto = projetoService.getProjetoById(id);
         return projeto.map(value -> ResponseEntity.status(HttpStatus.OK).body(value))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @Tag(name = "POST")
-    @Operation(summary = "Create a project", description = "Create a new project")
-    @PostMapping(value = "/", consumes = {"application/json", "application/xml"})
+    //@Tag(name = "POST")
+    //@Operation(summary = "Create a project", description = "Create a new project")
+    @PostMapping(value = "/projeto", consumes = {"application/json"})
     public ResponseEntity<String> createProjeto(@RequestBody Projeto projeto) {
         try {
             projeto.getTarefas().forEach(tarefa -> tarefa.setProjeto(projeto));
