@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/projeto")
 public class ProjetoController {
 
     private final ProjetoService projetoService;
@@ -27,25 +27,25 @@ public class ProjetoController {
         this.tarefaService = tarefaService;
     }
 
-    //@Tag(name = "GET")
-    //@Operation(summary = "Get all projects", description = "Retrieve all projects")
-    @GetMapping(value = "/", produces = {"application/json"})
+    @Tag(name = "GET")
+    @Operation(summary = "Get all projects", description = "Retrieve all projects")
+    @GetMapping(produces = {"application/json", "application/xml"})
     public List<Projeto> getAllProjetos() {
         return projetoService.getAllProjetos();
     }
 
-    //@Tag(name = "GET")
-    //@Operation(summary = "Get project by ID", description = "Retrieve a project by its ID")
-    @GetMapping(value = "/{id}", produces = {"application/json"})
+    @Tag(name = "GET")
+    @Operation(summary = "Get project by ID", description = "Retrieve a project by its ID")
+    @GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
     public ResponseEntity<Projeto> getProjetoById(@PathVariable Long id) {
         Optional<Projeto> projeto = projetoService.getProjetoById(id);
         return projeto.map(value -> ResponseEntity.status(HttpStatus.OK).body(value))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    //@Tag(name = "POST")
-    //@Operation(summary = "Create a project", description = "Create a new project")
-    @PostMapping(value = "/projeto", consumes = {"application/json"})
+    @Tag(name = "POST")
+    @Operation(summary = "Create a project", description = "Create a new project")
+    @PostMapping(consumes = {"application/json", "application/xml"})
     public ResponseEntity<String> createProjeto(@RequestBody Projeto projeto) {
         try {
             projeto.getTarefas().forEach(tarefa -> tarefa.setProjeto(projeto));
@@ -70,7 +70,7 @@ public class ProjetoController {
 
     @Tag(name = "PUT")
     @Operation(summary = "Update a project", description = "Update an existing project")
-    @PutMapping(value = "/", consumes = {"application/json", "application/xml"})
+    @PutMapping(consumes = {"application/json", "application/xml"})
     public ResponseEntity<String> editProjeto(@RequestBody Projeto projeto) {
         try {
             projetoService.createProjeto(projeto);
